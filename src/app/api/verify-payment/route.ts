@@ -6,7 +6,7 @@ export async function GET(request: NextRequest) {
   console.log('=== VERIFY PAYMENT API CALLED ===')
   
   try {
-    const stripe = getServerStripe()
+    const stripe = await getServerStripe()  // Added 'await' here
     const url = new URL(request.url)
     const sessionId = url.searchParams.get('session_id')
 
