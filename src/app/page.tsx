@@ -729,4 +729,6 @@ export default function Home() {
           0%, 100% { opacity: 1; }
           50% { opacity: 0.5; }
         }
-      `}</style>
+      `}</style> 
+    </div>
+  
