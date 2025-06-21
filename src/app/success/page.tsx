@@ -4,11 +4,20 @@ import { useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 
+interface PaymentResult {
+  storyTitle: string
+  amount: number
+  subscription?: Array<{
+    id: string
+    status: string
+  }>
+}
+
 export default function SuccessPage() {
   const searchParams = useSearchParams()
   const sessionId = searchParams.get('session_id')
   const [loading, setLoading] = useState(true)
-  const [result, setResult] = useState(null)
+  const [result, setResult] = useState<PaymentResult | null>(null)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
