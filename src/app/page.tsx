@@ -181,7 +181,7 @@ export default function Home() {
               opacity: 0.9,
               lineHeight: '1.6'
             }}>
-              Subscribe to captivating stories for just $1 each. Receive one chapter daily and enjoy the anticipation of tomorrow's continuation.
+              Subscribe to captivating stories for just $1 each. Receive one chapter daily and enjoy the anticipation of tomorrow&apos;s continuation.
             </p>
             
             {/* Live Status Banner */}
@@ -592,7 +592,7 @@ export default function Home() {
                     lineHeight: '1.6',
                     fontSize: '1.1rem'
                   }}>
-                    "{testimonial.quote}"
+                    &ldquo;{testimonial.quote}&rdquo;
                   </p>
                   <div>
                     <p style={{ fontWeight: 'bold', color: '#2d3748' }}>
@@ -730,6 +730,3 @@ export default function Home() {
           50% { opacity: 0.5; }
         }
       `}</style>
-    </div>
-  )
-}
