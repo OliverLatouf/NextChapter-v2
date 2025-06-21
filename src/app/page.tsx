@@ -69,15 +69,6 @@ export default function Home() {
         <div className="card">
           <h1 className="title">Loading NextChapter...</h1>
           <p className="subtitle">Preparing your reading experience</p>
-          <div style={{ 
-            width: '40px', 
-            height: '40px', 
-            border: '4px solid #e2e8f0', 
-            borderTop: '4px solid #667eea',
-            borderRadius: '50%',
-            animation: 'spin 1s linear infinite',
-            margin: '0 auto'
-          }}></div>
         </div>
       </div>
     )
@@ -200,8 +191,7 @@ export default function Home() {
                   width: '8px',
                   height: '8px',
                   background: '#48bb78',
-                  borderRadius: '50%',
-                  animation: 'pulse 2s infinite'
+                  borderRadius: '50%'
                 }}></div>
                 <span style={{ fontWeight: '500' }}>
                   🎉 Live & Ready! {stories.length} stories available for subscription
@@ -412,14 +402,6 @@ export default function Home() {
                       transition: 'all 0.3s ease',
                       cursor: 'pointer'
                     }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.transform = 'translateY(-4px)'
-                      e.currentTarget.style.boxShadow = '0 12px 40px rgba(0, 0, 0, 0.15)'
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.transform = 'translateY(0)'
-                      e.currentTarget.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.1)'
-                    }}
                   >
                     <div style={{
                       width: '100%',
@@ -557,7 +539,7 @@ export default function Home() {
             }}>
               {[
                 {
-                  quote: "I look forward to my daily chapter every morning with my coffee. It's become a cherished ritual.",
+                  quote: "I look forward to my daily chapter every morning with my coffee. It has become a cherished ritual.",
                   name: "Lisa Jordan",
                   role: "Avid Reader"
                 },
@@ -719,14 +701,6 @@ export default function Home() {
           initialMode={authModal.mode}
         />
       )}
-
-      <style jsx>{`
-        @keyframes spin {
-          0% { transform: rotate(0deg); }
-          100% { transform: rotate(360deg); }
-        }
-        @keyframes pulse {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.5; }
-        }
-      `}</style> 
+    </div>
+  )
+}
