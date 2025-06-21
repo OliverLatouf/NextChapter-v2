@@ -8,7 +8,7 @@ export default function SuccessPage() {
   const searchParams = useSearchParams()
   const sessionId = searchParams.get('session_id')
   const [loading, setLoading] = useState(true)
-  const [result, setResult] = useState<any>(null)
+  const [result, setResult] = useState(null)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
