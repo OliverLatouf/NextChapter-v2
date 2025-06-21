@@ -6,7 +6,7 @@ export async function POST(request: NextRequest) {
   console.log('=== API ROUTE CALLED ===')
   
   try {
-    const stripe = getServerStripe()
+    const stripe = await getServerStripe()  // Added 'await' here
     const { storyId, userId } = await request.json()
 
     console.log('Received request:', { storyId, userId })
