@@ -1,103 +1,146 @@
-import Image from "next/image";
+'use client'
+
+import { useState, useEffect } from 'react'
+import { useAuth } from '@/lib/auth-context'
+import AuthModal from '@/components/auth/AuthModal'
+import UserDashboard from '@/components/dashboard/UserDashboard'
+import SubscribeButton from '@/components/checkout/SubscribeButton'
+import { supabase } from '@/lib/supabase'
+
+interface Story {
+  id: string
+  title: string
+  description: string
+  author: string
+  price: number
+  total_chapters: number
+}
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const { user, loading: authLoading } = useAuth()
+  const [stories, setStories] = useState<Story[]>([])
+  const [loading, setLoading] = useState(true)
+  const [authModal, setAuthModal] = useState<{ isOpen: boolean; mode: 'login' | 'register' } | null>(null)
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  useEffect(() => {
+    async function fetchStories() {
+      try {
+        const { data, error } = await supabase
+          .from('stories')
+          .select('*')
+          .eq('is_published', true)
+          .order('created_at', { ascending: false })
+        
+        if (error) throw error
+        setStories(data || [])
+      } catch (error) {
+        console.error('Error fetching stories:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchStories()
+  }, [])
+
+  if (authLoading || loading) {
+    return (
+      <div className="page-wrapper">
+        <div className="card">
+          <h1 className="title">Loading NextChapter...</h1>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </div>
+    )
+  }
+
+  return (
+    <div style={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', minHeight: '100vh', padding: '2rem' }}>
+      <div className="container" style={{ maxWidth: '1000px', margin: '0 auto' }}>
+        
+        {/* Header */}
+        <div className="card" style={{ marginBottom: '2rem', textAlign: 'center' }}>
+          <h1 className="title">NextChapter</h1>
+          <p className="subtitle">Amazing stories delivered daily to your inbox</p>
+          <div className="success-banner">
+            🎉 Ready for payments! {stories.length} stories available
+          </div>
+          
+          {/* Auth buttons for non-logged in users */}
+          {!user && (
+            <div className="flex gap-2 mt-3" style={{ justifyContent: 'center' }}>
+              <button 
+                className="button-secondary"
+                onClick={() => setAuthModal({ isOpen: true, mode: 'login' })}
+              >
+                Sign In
+              </button>
+              <button 
+                className="button-primary"
+                onClick={() => setAuthModal({ isOpen: true, mode: 'register' })}
+              >
+                Sign Up
+              </button>
+            </div>
+          )}
+        </div>
+
+        {/* User Dashboard for logged in users */}
+        {user && <UserDashboard />}
+
+        {/* Stories Grid */}
+        <div style={{ 
+          display: 'grid', 
+          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+          gap: '1.5rem'
+        }}>
+          {stories.map((story) => (
+            <div key={story.id} className="card" style={{ textAlign: 'left' }}>
+              <h3 style={{ color: '#2d3748', marginBottom: '0.5rem', fontSize: '1.5rem' }}>
+                {story.title}
+              </h3>
+              <p style={{ color: '#718096', marginBottom: '0.5rem', fontStyle: 'italic' }}>
+                by {story.author}
+              </p>
+              <p style={{ color: '#4a5568', marginBottom: '1rem', lineHeight: '1.6' }}>
+                {story.description}
+              </p>
+              
+              <div style={{ marginBottom: '1rem' }}>
+                <span style={{ color: '#38a169', fontWeight: 'bold', fontSize: '1.25rem' }}>
+                  ${(story.price / 100).toFixed(2)}
+                </span>
+                <span style={{ color: '#718096', marginLeft: '0.5rem' }}>
+                  • {story.total_chapters} chapters
+                </span>
+              </div>
+
+              <SubscribeButton
+                story={{
+                  id: story.id,
+                  title: story.title,
+                  author: story.author,
+                  price: story.price
+                }}
+                onAuthRequired={() => setAuthModal({ isOpen: true, mode: 'register' })}
+              />
+            </div>
+          ))}
+        </div>
+
+        {/* Footer */}
+        <div style={{ textAlign: 'center', marginTop: '2rem', color: 'white' }}>
+          <p>NextChapter 2.0 - Powered by Next.js, Supabase & AI</p>
+        </div>
+      </div>
+
+      {/* Auth Modal */}
+      {authModal && (
+        <AuthModal
+          isOpen={authModal.isOpen}
+          onClose={() => setAuthModal(null)}
+          initialMode={authModal.mode}
+        />
+      )}
     </div>
-  );
+  )
 }
