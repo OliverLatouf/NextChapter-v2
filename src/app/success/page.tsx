@@ -67,7 +67,7 @@ export default function SuccessPage() {
               Thank you for subscribing to <strong>{result.storyTitle}</strong>!
             </p>
             <div className="success-banner">
-              You'll receive your first chapter via email shortly.
+              You will receive your first chapter via email shortly.
             </div>
             
             <div style={{ 

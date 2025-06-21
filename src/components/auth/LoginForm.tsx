@@ -80,7 +80,7 @@ export default function LoginForm({ onSuccess, onSwitchToRegister }: LoginFormPr
       </button>
 
       <p style={{ textAlign: 'center', color: '#718096', fontSize: '0.9rem' }}>
-        Don't have an account?{' '}
+        Do not have an account?{' '}
         <button
           type="button"
           onClick={onSwitchToRegister}
