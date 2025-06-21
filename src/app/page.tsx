@@ -730,5 +730,3 @@ export default function Home() {
           50% { opacity: 0.5; }
         }
       `}</style> 
-    </div>
-  
