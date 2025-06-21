@@ -7,6 +7,6 @@ export const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHAB
 export async function getServerStripe() {
   const Stripe = (await import('stripe')).default
   return new Stripe(process.env.STRIPE_SECRET_KEY!, {
-    apiVersion: '2024-06-20',
-  })
+    apiVersion: '2025-05-28.basil',
+    })
 }
