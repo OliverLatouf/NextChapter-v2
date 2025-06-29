@@ -53,7 +53,7 @@ const AdminDashboard = () => {
         <div className="text-center p-8 bg-white rounded-lg shadow-lg">
           <Shield className="w-16 h-16 text-red-500 mx-auto mb-4" />
           <h1 className="text-2xl font-bold text-gray-900 mb-2">Access Denied</h1>
-          <p className="text-gray-600">You don't have permission to access the admin dashboard.</p>
+          <p className="text-gray-600">You don&apos;t have permission to access the admin dashboard.</p>
         </div>
       </div>
     );
@@ -69,7 +69,13 @@ const AdminDashboard = () => {
     ...(isSuperAdmin ? [{ id: 'admin', label: 'Admin Settings', icon: Settings }] : [])
   ];
 
-  const StatCard = ({ title, value, change, icon: Icon, color }) => (
+  const StatCard = ({ title, value, change, icon: Icon, color }: {
+    title: string;
+    value: string | number;
+    change?: number;
+    icon: React.ElementType;
+    color: string;
+  }) => (
     <div className="admin-stat-card">
       <div className="flex items-center justify-between">
         <div>
@@ -179,7 +185,7 @@ const AdminDashboard = () => {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold text-gray-900 mb-1">NextChapter Admin</h1>
-            <p className="text-sm text-gray-600">Welcome back, {adminUser?.name}</p>
+            <p className="text-sm text-gray-600">Welcome back, {adminUser?.name || 'Admin'}</p>
           </div>
           <div className="flex items-center gap-4">
             <button className="relative p-2 text-gray-600 hover:text-gray-900 transition-colors">
@@ -189,7 +195,7 @@ const AdminDashboard = () => {
             <div className="flex items-center gap-2">
               <Shield className="w-5 h-5 text-blue-600" />
               <span className="text-sm font-medium text-gray-700 capitalize">
-                {adminUser?.role?.replace('_', ' ')}
+                {adminUser?.role?.replace('_', ' ') || 'Admin'}
               </span>
             </div>
           </div>

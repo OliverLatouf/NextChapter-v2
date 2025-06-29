@@ -62,7 +62,7 @@ export const useAdminAuth = () => {
     action_type: string,
     target_type: string,
     target_id?: string,
-    details?: Record<string, any>
+    details?: Record<string, unknown>
   ) => {
     if (!adminUser) return;
 
